@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"log"
 	"math"
-	"neptune-core/pkg/common"
+	"github.com/hwangtaeseung/neptune-core/pkg/common"
 )
 
 type HevcDB struct {

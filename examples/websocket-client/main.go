@@ -2,8 +2,8 @@ package main
 
 import (
 	"github.com/gorilla/websocket"
+	"github.com/hwangtaeseung/neptune-core/pkg/network/websock"
 	"log"
-	"neptune-core/pkg/network/websock"
 	"time"
 )
 

@@ -2,9 +2,9 @@ package main
 
 import (
 	"github.com/gorilla/websocket"
+	"github.com/hwangtaeseung/neptune-core/pkg/common"
+	"github.com/hwangtaeseung/neptune-core/pkg/network/websock"
 	"log"
-	"neptune-core/pkg/common"
-	"neptune-core/pkg/network/websock"
 )
 
 const defaultAddress = ":7777"

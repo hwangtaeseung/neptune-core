@@ -2,7 +2,7 @@ package awssdk
 
 import (
 	"log"
-	"neptune-core/pkg/common"
+	"github.com/hwangtaeseung/neptune-core/pkg/common"
 )
 
 type AWSCredential struct {

@@ -5,7 +5,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/batch"
 	"log"
-	"neptune-core/pkg/common"
+	"github.com/hwangtaeseung/neptune-core/pkg/common"
 )
 
 func SubmitJob(region, jobDefinition, jobName, jobQueue string, envs []*batch.KeyValuePair,

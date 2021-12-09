@@ -5,7 +5,7 @@ import (
 	"io"
 	"io/ioutil"
 	"log"
-	"neptune-core/pkg/common"
+	"github.com/hwangtaeseung/neptune-core/pkg/common"
 	"os"
 	"path/filepath"
 	"sync/atomic"

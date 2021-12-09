@@ -1,4 +1,4 @@
-module neptune-core
+module github.com/hwangtaeseung/neptune-core
 
 go 1.16
 
