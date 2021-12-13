@@ -4,8 +4,7 @@ import (
 	"reflect"
 )
 
-type TextMessageHandler func(session *WSSession, message string)
-type BinaryMessageHandler func(session *WSSession, message []byte)
+type WSMessageHandler func(session *WSSession, message []byte)
 
 type WSContext struct {
 	MessageHandler func(client *WSSession, message interface{})
@@ -14,12 +13,12 @@ type WSContext struct {
 
 type WSHandler struct {
 	handlers             map[string]*WSContext
-	binaryMessageHandler BinaryMessageHandler
-	textMessageHandler   TextMessageHandler
+	binaryMessageHandler WSMessageHandler
+	textMessageHandler   WSMessageHandler
 }
 
 // NewWSHandler NewHandler create web socket handler
-func NewWSHandler(textMessageHandler TextMessageHandler, binaryMessageHandler BinaryMessageHandler) *WSHandler {
+func NewWSHandler(textMessageHandler WSMessageHandler, binaryMessageHandler WSMessageHandler) *WSHandler {
 	return &WSHandler{
 		textMessageHandler:   textMessageHandler,
 		binaryMessageHandler: binaryMessageHandler,

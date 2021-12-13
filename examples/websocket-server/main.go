@@ -18,9 +18,9 @@ func main() {
 		// web socket handler
 		websock.NewWSHandler(
 			// text receive handler
-			func(client *websock.WSSession, message string) {
-				log.Printf("[TEXT] received message : %v\n", message)
-				client.Send(websocket.TextMessage, []byte(message))
+			func(client *websock.WSSession, message []byte) {
+				log.Printf("[TEXT] received message : %v\n",string(message))
+				client.Send(websocket.TextMessage, message)
 			},
 			// binary receive handler
 			func(client *websock.WSSession, message []byte) {

@@ -96,7 +96,7 @@ func (s *WSServer) MsgHandler(session *WSSession, messageType int, message []byt
 	switch messageType {
 	case websocket.TextMessage:
 		if s.wsHandler.textMessageHandler != nil {
-			s.wsHandler.textMessageHandler(session, string(message))
+			s.wsHandler.textMessageHandler(session, message)
 		}
 	case websocket.BinaryMessage:
 		if s.wsHandler.binaryMessageHandler != nil {
