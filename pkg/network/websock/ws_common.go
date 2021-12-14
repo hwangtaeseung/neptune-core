@@ -22,6 +22,7 @@ func sendJson(buffer chan *Message, message interface{}) {
 	if jsonMessage, err := json.Marshal(&message); err != nil {
 		log.Printf("invalid message in send object : %+v\n", message)
 	} else {
+		log.Printf("message sent to client : %v\n", jsonMessage)
 		send(buffer, websocket.TextMessage, jsonMessage)
 	}
 }

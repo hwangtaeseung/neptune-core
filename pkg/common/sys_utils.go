@@ -19,6 +19,10 @@ func WaitForShutdown(shutdownCallback func()) {
 	shutdownCallback()
 }
 
-func GetCurrentTime() int64 {
-	return time.Now().UnixNano() / 10000000
+func GetCurrentTimeAsMilli() int64 {
+	return time.Now().UnixNano() / int64(time.Millisecond)
+}
+
+func GetCurrentTimeAsSec() float64 {
+	return float64(time.Now().UnixNano() / int64(time.Second))
 }
