@@ -7,14 +7,14 @@ import (
 )
 
 type Message struct {
-	msgType int
-	message []byte
+	MsgType int
+	Message []byte
 }
 
 func send(buffer chan *Message, msgType int, message []byte) {
 	buffer <- &Message{
-		msgType: msgType,
-		message: message,
+		MsgType: msgType,
+		Message: message,
 	}
 }
 

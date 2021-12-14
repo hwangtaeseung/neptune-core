@@ -104,7 +104,7 @@ func (w *WSSession) processToWrite() {
 				return
 			}
 
-			err := w.Conn.WriteMessage(buffer.msgType, buffer.message)
+			err := w.Conn.WriteMessage(buffer.MsgType, buffer.Message)
 			if err != nil {
 				log.Printf("write close error : %v\n", err)
 				return
@@ -125,7 +125,7 @@ func (w *WSSession) SendString(message string)  {
 }
 
 func (w *WSSession) SendMessage(message *Message)  {
-	send(w.send, message.msgType, message.message)
+	send(w.send, message.MsgType, message.Message)
 }
 
 func (w *WSSession) Send(msgType int, message []byte) {

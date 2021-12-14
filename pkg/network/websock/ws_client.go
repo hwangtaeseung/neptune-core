@@ -83,8 +83,8 @@ func (w *WSClient) processToRead() {
 		// call read event
 		if w.OnReadMessage != nil {
 			w.OnReadMessage(&Message{
-				msgType: msgType,
-				message: message,
+				MsgType: msgType,
+				Message: message,
 			})
 		}
 	}
@@ -110,7 +110,7 @@ func (w *WSClient) processToWrite() {
 				return
 			}
 
-			if err := w.client.WriteMessage(message.msgType, message.message); err != nil {
+			if err := w.client.WriteMessage(message.MsgType, message.Message); err != nil {
 				log.Printf("write error : %+v\n", err)
 				return
 			}
