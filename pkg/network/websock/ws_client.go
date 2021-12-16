@@ -20,13 +20,9 @@ type WSClient struct {
 	OnError func(error)
 }
 
-func (w *WSClient) Connect(address string, path string) error {
+func (w *WSClient) Connect(scheme string, address string, path string) error {
 
-	u := url.URL{
-		Scheme: "ws",
-		Host:   address,
-		Path:   path,
-	}
+	u := url.URL{Scheme: scheme, Host: address, Path: path}
 
 	// connect
 	client, _, err := websocket.DefaultDialer.Dial(u.String(), nil)
@@ -82,10 +78,7 @@ func (w *WSClient) processToRead() {
 		}
 		// call read event
 		if w.OnReadMessage != nil {
-			w.OnReadMessage(&Message{
-				MsgType: msgType,
-				Message: message,
-			})
+			w.OnReadMessage(&Message{MsgType: msgType, Message: message})
 		}
 	}
 }
@@ -102,8 +95,6 @@ func (w *WSClient) processToWrite() {
 		case <-w.done:
 			return
 		case message, ok := <-w.messageQueueToWrite:
-			log.Printf("send message : %+v\n", message)
-
 			if !ok {
 				_ = w.client.WriteMessage(websocket.CloseMessage, []byte{})
 				log.Printf("text message queue channel is closed")

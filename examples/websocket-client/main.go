@@ -36,7 +36,7 @@ func main() {
 	}
 
 	// connect to server
-	if err := client.Connect("0.0.0.0:7777", "/ws"); err != nil {
+	if err := client.Connect("ws", "0.0.0.0:7777", "/ws"); err != nil {
 		log.Printf("app connection erorr : %v\n", err)
 		return
 	}
