@@ -2,10 +2,10 @@ package awssdk
 
 import (
 	"fmt"
+	"github.com/hwangtaeseung/neptune-core/pkg/common"
 	"io"
 	"io/ioutil"
 	"log"
-	"github.com/hwangtaeseung/neptune-core/pkg/common"
 	"os"
 	"path/filepath"
 	"sync/atomic"
@@ -73,7 +73,7 @@ func DownloadS3Partially(s3Url *S3Url, tempDir string, partialRange string,
 
 		wd, _ := os.Getwd()
 		disk, err := common.DiskUsage(wd)
-		if float64(disk.Free) * 0.95 < float64(fileSize) {
+		if float64(disk.Free)*0.95 < float64(fileSize) {
 			return "", 0, fmt.Errorf("out of disk space (downloadFileSize:%v, diskDize:%v)", fileSize, disk.Free)
 		}
 
@@ -136,7 +136,7 @@ func (pw *progressWriter) WriteAt(p []byte, off int64) (int, error) {
 		if pw.callback != nil {
 			pw.callback(pw.size, pw.written, percentage)
 		}
-		atomic.StoreInt64(&pw.time, currentTime + common.DefaultProgressUpdateInterval)
+		atomic.StoreInt64(&pw.time, currentTime+common.DefaultProgressUpdateInterval)
 	}
 
 	return pw.writer.WriteAt(p, off)
@@ -155,7 +155,7 @@ func byteCountDecimal(b int64) string {
 	return fmt.Sprintf("%.1f %cB", float64(b)/float64(div), "kMGTPE"[exp])
 }
 
-func getS3FileSize(svc *s3.S3, bucket string, key string) (filesize int64, error error) {
+func getS3FileSize(svc *s3.S3, bucket string, key string) (int64, error) {
 	params := &s3.HeadObjectInput{
 		Bucket: aws.String(bucket),
 		Key:    aws.String(key),

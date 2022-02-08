@@ -2,9 +2,9 @@ package dbwrapper
 
 import (
 	"database/sql"
+	"github.com/hwangtaeseung/neptune-core/pkg/common"
 	"log"
 	"math"
-	"github.com/hwangtaeseung/neptune-core/pkg/common"
 )
 
 type HevcDB struct {
@@ -17,7 +17,6 @@ type HevcDB struct {
 func NewDB(vendor string, connectString string, maxConn int) *HevcDB {
 	dbOff := false
 	if connectString == "" {
-
 		dbOff = true
 	}
 	return &HevcDB{
@@ -87,7 +86,7 @@ func (d *HevcDB) ExecSQLWithTx(callback func(tx *sql.Tx) (interface{}, error)) (
 			// commit
 			return ret, nil
 		}
-	},  common.DefaultMaxRetryCount)
+	}, common.DefaultMaxRetryCount)
 }
 
 type HevcSql struct {

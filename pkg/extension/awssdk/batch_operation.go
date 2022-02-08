@@ -4,15 +4,15 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/batch"
-	"log"
 	"github.com/hwangtaeseung/neptune-core/pkg/common"
+	"log"
 )
 
 func SubmitJob(region, jobDefinition, jobName, jobQueue string, envs []*batch.KeyValuePair,
 	arrayProperties *batch.ArrayProperties, dependOn []*batch.JobDependency) (*batch.SubmitJobOutput, error) {
 
 	sess := session.Must(session.NewSession(&aws.Config{
-		Region:      aws.String(region),
+		Region: aws.String(region),
 	}))
 
 	input := &batch.SubmitJobInput{
@@ -39,12 +39,12 @@ func SubmitJob(region, jobDefinition, jobName, jobQueue string, envs []*batch.Ke
 func TerminateJob(region, jobId, reason string) (*batch.TerminateJobOutput, error) {
 
 	sess := session.Must(session.NewSession(&aws.Config{
-		Region:      aws.String(region),
+		Region: aws.String(region),
 	}))
 
 	input := &batch.TerminateJobInput{
-		JobId:     aws.String(jobId),
-		Reason:    aws.String(reason),
+		JobId:  aws.String(jobId),
+		Reason: aws.String(reason),
 	}
 
 	service := batch.New(sess)

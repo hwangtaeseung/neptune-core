@@ -54,20 +54,21 @@ func BeautifyJson(byteJson []byte) (string, error) {
 	return string(prettyJSON.Bytes()), nil
 }
 
-func NVL(value interface{}, replace interface{}) interface{} {
+func NVL[T ~string](value T, replace T) T {
 	if value == nil {
 		return replace
-	}
-	switch value.(type) {
-	case string:
-		if value == "" {
-			return replace
-		}
 	}
 	return value
 }
 
-func IF(is bool, trueValue interface{}, falseValue interface{}) interface{} {
+func NVLAsString(value string, replace string) string {
+	if value == "" {
+		return replace
+	}
+	return value
+}
+
+func IF[T any](is bool, trueValue T, falseValue T) T {
 	if is {
 		return trueValue
 	} else {
@@ -75,8 +76,7 @@ func IF(is bool, trueValue interface{}, falseValue interface{}) interface{} {
 	}
 }
 
-type GoRoutineFunc func(ctx context.Context) interface{}
-func GoRoutineWithContext(ctx context.Context, callbacks ...GoRoutineFunc) ([]interface{}, error) {
+func GoRoutineWithContext[T any](ctx context.Context, resultCallback func(result T, err error), callbacks ...func(ctx context.Context) T) ([]T, error) {
 
 	if callbacks == nil {
 		return nil, errors.New("callbacks is nil")
@@ -87,19 +87,25 @@ func GoRoutineWithContext(ctx context.Context, callbacks ...GoRoutineFunc) ([]in
 
 	// execute go routine
 	for _, callback := range callbacks {
-		callback := callback
+		cb := callback
 		go func() {
-			done <- callback(ctx)
+			done <- cb(ctx)
 		}()
 	}
 
 	// receive go routine return value
-	var results []interface{}
+	var results []T
 	for range callbacks {
 		select {
 		case result := <-done:
 			results = append(results, result)
+			if resultCallback != nil {
+				resultCallback(result, nil)
+			}
 		case <-ctx.Done():
+			if resultCallback != nil {
+				resultCallback(nil, ctx.Err())
+			}
 			return nil, ctx.Err()
 		}
 	}
@@ -138,12 +144,12 @@ func DurationToSecond(duration string) (sec float64) {
 	hours, _ := strconv.ParseFloat(durationArray[0], 64)
 	minutes, _ := strconv.ParseFloat(durationArray[1], 64)
 	seconds, _ := strconv.ParseFloat(durationArray[2], 64)
-	return hours * (60 * 60) + minutes * (60) + seconds
+	return hours*(60*60) + minutes*(60) + seconds
 }
 
-func RetryWrapper(callback func() (interface{}, error), retryCount int) (interface{}, error) {
+func RetryWrapper[T any](callback func() (T, error), retryCount int) (T, error) {
 	var err error
-	var result interface{}
+	var result T
 	for count := 0; count < retryCount; count++ {
 		if result, err = callback(); err != nil {
 			log.Printf("An error occurred. try again... (count:%v, error:%v)\n", count, err)
@@ -206,7 +212,7 @@ func QueryString(headers map[string]string) string {
 	return headerString
 }
 
-func GroupLoop(originArray []interface{}, concurrencyCount int, callback func(group []interface{}) error) error {
+func GroupLoop[T any](originArray []T, concurrencyCount int, callback func(group []T) error) error {
 	count := len(originArray)
 	groupArray := originArray
 	for index := 0; index < count; index += concurrencyCount {

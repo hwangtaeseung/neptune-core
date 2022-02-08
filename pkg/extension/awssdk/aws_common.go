@@ -3,6 +3,7 @@ package awssdk
 import (
 	"os"
 )
+
 type S3Url struct {
 	Region                  string `json:"region"`
 	InputBucket             string `json:"input_bucket"`
@@ -10,7 +11,7 @@ type S3Url struct {
 	OutputBucket            string `json:"output_bucket"`
 	SystemSettingsBucket    string `json:"setting_bucket"`
 	Key                     string `json:"key"`
-	MediaId 				string `json:"media_id"`
+	MediaId                 string `json:"media_id"`
 	EncodingProfileForVideo string `json:"encoding_profile_for_video"`
 	AudioType               string `json:"audio_type"`
 	EncodingProfileForAudio string `json:"encoding_profile_for_audio"`
